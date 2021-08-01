@@ -56,8 +56,12 @@ params:
         Title: "About this blog \U0001f680"
         Content: >
             Security research/Red team
+
+
             Friends: 
-            [倾旋](https://payloads.online/)
+
+                
+            [倾旋](https://payloads.online/)/[晏子霜](http://www.whsgwl.net/)/[蕉皮](https://www.cnblogs.com/Kali-Team/)/[Key](https://gh0st.cn/)/[Akkuman](http://hacktech.cn/)
 
     socialIcons:
         - name: github
