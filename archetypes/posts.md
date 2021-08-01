@@ -15,7 +15,7 @@ disableHLJS: true # to disable highlightjs
 disableShare: false
 hideSummary: false
 searchHidden: false
-ShowReadingTime: true
+ShowReadingTime: false
 ShowBreadCrumbs: true
 ShowPostNavLinks: true
 cover:
