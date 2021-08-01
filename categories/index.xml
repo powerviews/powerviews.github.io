@@ -8,6 +8,16 @@
       <url>https://powerviews.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</url>
       <link>https://powerviews.github.io/%3Clink%20or%20path%20of%20image%20for%20opengraph,%20twitter-cards%3E</link>
     </image>
-    <generator>Hugo -- gohugo.io</generator><atom:link href="https://powerviews.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 01 Aug 2021 16:59:33 +0800</lastBuildDate><atom:link href="https://powerviews.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>流水账</title>
+      <link>https://powerviews.github.io/categories/%E6%B5%81%E6%B0%B4%E8%B4%A6/</link>
+      <pubDate>Sun, 01 Aug 2021 16:59:33 +0800</pubDate>
+      
+      <guid>https://powerviews.github.io/categories/%E6%B5%81%E6%B0%B4%E8%B4%A6/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>

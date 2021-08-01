@@ -1,0 +1,211 @@
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>精致小巧：Nuc搭建Homelab流水账 | Powerviews' blog</title>
+<meta name=keywords content="折腾">
+<meta name=description content="玩一玩闲置很久的Nuc8i5">
+<meta name=author content="Me">
+<link rel=canonical href=https://powerviews.github.io/posts/%E7%B2%BE%E8%87%B4%E5%B0%8F%E5%B7%A7nuc%E6%90%AD%E5%BB%BAhomelab%E6%B5%81%E6%B0%B4%E8%B4%A6/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.35cd0f65a15cafa92372b8313deef5960aae04b90ad722f2bbf509eb0468137e.css integrity="sha256-Nc0PZaFcr6kjcrgxPe71lgquBLkK1yLyu/UJ6wRoE34=" rel="preload stylesheet" as=style>
+<link rel=preload href=https://avatars.githubusercontent.com/u/86722877 as=image>
+<link rel=icon href=https://avatars.githubusercontent.com/u/86722877>
+<link rel=icon type=image/png sizes=16x16 href="https://avatars.githubusercontent.com/u/86722877?s=16">
+<link rel=icon type=image/png sizes=32x32 href="https://avatars.githubusercontent.com/u/86722877?s=32">
+<link rel=apple-touch-icon href=https://avatars.githubusercontent.com/u/86722877>
+<link rel=mask-icon href=https://avatars.githubusercontent.com/u/86722877>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.86.1">
+<meta property="og:title" content="精致小巧：Nuc搭建Homelab流水账">
+<meta property="og:description" content="玩一玩闲置很久的Nuc8i5">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://powerviews.github.io/posts/%E7%B2%BE%E8%87%B4%E5%B0%8F%E5%B7%A7nuc%E6%90%AD%E5%BB%BAhomelab%E6%B5%81%E6%B0%B4%E8%B4%A6/">
+<meta property="og:image" content="https://powerviews.github.io/%3Cimage%20path/url%3E"><meta property="article:section" content="posts">
+<meta property="article:published_time" content="2021-08-01T16:59:33+08:00">
+<meta property="article:modified_time" content="2021-08-01T16:59:33+08:00"><meta property="og:site_name" content="Powerviews' blog">
+<meta name=twitter:card content="summary_large_image">
+<meta name=twitter:image content="https://powerviews.github.io/%3Cimage%20path/url%3E">
+<meta name=twitter:title content="精致小巧：Nuc搭建Homelab流水账">
+<meta name=twitter:description content="玩一玩闲置很久的Nuc8i5">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Posts","item":"https://powerviews.github.io/posts/"},{"@type":"ListItem","position":2,"name":"精致小巧：Nuc搭建Homelab流水账","item":"https://powerviews.github.io/posts/%E7%B2%BE%E8%87%B4%E5%B0%8F%E5%B7%A7nuc%E6%90%AD%E5%BB%BAhomelab%E6%B5%81%E6%B0%B4%E8%B4%A6/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"精致小巧：Nuc搭建Homelab流水账","name":"精致小巧：Nuc搭建Homelab流水账","description":"玩一玩闲置很久的Nuc8i5","keywords":["折腾"],"articleBody":"序 去年购置的Nuc8i5，搭配了32G内存 + 1T m.2 SSD，花费了差不多四千多？机器本身比较便宜，咸鱼可以不到两千入手一个。\n在装了manjaro之后，遇到了出现很多次问题，最后换新了两次后成功吃灰。当然作为穷狗，肯定不能浪费。想来想去，还是做一个Home lab吧，在申请了宽带外网IP后，配合DDNS，便可以当作家用服务器来使用。\n安装ProxmoxVE 经过短时间调研后，各类互联网评测结果都倾向PVE更加适合作为家用服务器的虚拟化平台，故此先试试PVE。\n Proxmox VE（英语：Proxmox Virtual Environment，通常简称为PVE、Proxmox），是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API，在Affero通用公共许可证第三版下发行。Proxmox VE支持两类虚拟化技术：基于容器的LXC（自4.0版开始，3.4版及以前使用OpenVZ技术）和硬件抽象层全虚拟化的KVM。\nPVE下载地址\nhttps://www.proxmox.com/en/downloads/category/iso-images-pve\n balenaEtcher刷入U盘，然后BIOS修改硬盘顺序，常规操作刷入NUC。\n连接WIFI 由于Nuc拥有wifi和有线双模功能的，为了更加方便使用（见不得那么多线），决定最终得使用WIFI来出网。Debian连接WIFI有几种方案： https://wiki.debian.org/WiFi/HowToUse 。\n笔者测试后认为还是Intel的ConnMan工具套件最为便捷，先接入网线，用于安装一些工具。如果有使用端口映射将PVE到公网的需求，那么一定要提前在路由器上设置好DHCP分配静态IP，以免PVE端的IP变动。\n 安装connman  sudo apt install connman ifupdown2\rsudo systemctl start connman\r执行connmanctl 启动wifi模块，然后扫描wifi，等待扫描结束，通过services指令获得SSID，使用connect指令连接对应WIFI，输入密码成功后，则提示连接成功，随后quit指令退出Connman即可。  root@pve:~# connmanctl\rconnmanctl enable wifi\rError wifi: Already enabled\rconnmanctl scan wifi\rScan completed for wifi\rconnmanctl services\rChinaNet-Ze4p wifi_c8e26537e042_4368696e614e65742d5a653470_managed_psk\rTP-802 wifi_c8e26537e042_54502d383032_managed_psk\rpb wifi_c8e26537e042_7062_managed_psk\rwifi_c8e26537e042_hidden_managed_psk\rTP-LINK_home wifi_c8e26537e042_54502d4c494e4b5f686f6d65_managed_psk\rconnmanctl agent on\rAgent registered\rconnmanctl connect wifi_c8e26537e042_4368696e614e65742d5a653470_managed_psk\r配置网络接口 如果上述操作没有遇到问题，那么就可以看到我们被分配到了IP，并且可以成功使用WIFI上网。\n接下来，需要配置NAT，让虚拟机使用PVE的IP来传出流量，这里需要使用到iptables来转发。具体操作可参考： https://pve.proxmox.com/wiki/Network_Configuration#_masquerading_nat_with_tt_span_class_monospaced_iptables_span_tt\n简单修改一下，我这个场景下，已经使用路由器DHCP分配了固定的IP，所以无需在客户端配置静态IP。\nauto lo\riface lo inet loopback\rauto wlp0s20f3\riface wlp0s20f3 inet dhcp\riface eno1 inet manual\rauto vmbr0\riface vmbr0 inet static\raddress 10.10.10.1/24\rbridge-ports none\rbridge-stp off\rbridge-fd 0\r#NAT出网，网关10.10.10.1\rpost-up echo 1  /proc/sys/net/ipv4/ip_forward\rpost-up iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o wlp0s20f3 -j MASQUERADE\rpost-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o wlp0s20f3 -j MASQUERADE\r如此一来，网络配置基本处理完了。对了，这里推荐一个PVE主题 PVEDiscordDark 。接下来，就只需要重启网卡或者直接设备重启即可落实修改了。\n测试虚拟机 输入wifi网卡的地址的8006端口，记得用https，即可访问到PVE的web管理界面。\n在 本地节点-local存储-ISO镜像 处，可以上传系统ISO镜像，也就是常规的VM格式。\n而后，直接创建虚拟机，跟着走就行。我直接跳到安装后的虚拟机中，设置好网卡属性，子网10.10.10.1/24，网关为10.10.10.1，然后一定要记住设置DNS，不然无法解析域名。最后，重启一下网卡或者机器即可。\n","wordCount":"146","inLanguage":"en","image":"https://powerviews.github.io/%3Cimage%20path/url%3E","datePublished":"2021-08-01T16:59:33+08:00","dateModified":"2021-08-01T16:59:33+08:00","author":{"@type":"Person","name":"Me"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://powerviews.github.io/posts/%E7%B2%BE%E8%87%B4%E5%B0%8F%E5%B7%A7nuc%E6%90%AD%E5%BB%BAhomelab%E6%B5%81%E6%B0%B4%E8%B4%A6/"},"publisher":{"@type":"Organization","name":"Powerviews' blog","logo":{"@type":"ImageObject","url":"https://avatars.githubusercontent.com/u/86722877"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<noscript>
+<style type=text/css>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://powerviews.github.io/ accesskey=h title="Powerviews' Blog (Alt + H)">
+<img src=https://avatars.githubusercontent.com/u/86722877 alt=logo aria-label=logo height=35>Powerviews' Blog</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://powerviews.github.io/archives/ title=Archive>
+<span>Archive</span>
+</a>
+</li>
+<li>
+<a href=https://powerviews.github.io/categories/ title=Categories>
+<span>Categories</span>
+</a>
+</li>
+<li>
+<a href=https://powerviews.github.io/tags/ title=Tags>
+<span>Tags</span>
+</a>
+</li>
+<li>
+<a href=https://powerviews.github.io/search/ title="Search (Alt + /)" accesskey=/>
+<span>Search</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<div class=breadcrumbs><a href=https://powerviews.github.io/>Home</a>&nbsp;»&nbsp;<a href=https://powerviews.github.io/posts/>Posts</a></div>
+<h1 class=post-title>
+精致小巧：Nuc搭建Homelab流水账
+</h1>
+<div class=post-description>
+玩一玩闲置很久的Nuc8i5
+</div>
+<div class=post-meta>August 1, 2021&nbsp;·&nbsp;1 min&nbsp;·&nbsp;Me&nbsp;|&nbsp;<a href=https://github.com/powerviews/powerviews.github.io/content/posts/%e7%b2%be%e8%87%b4%e5%b0%8f%e5%b7%a7%ef%bc%9aNuc%e6%90%ad%e5%bb%baHomelab%e6%b5%81%e6%b0%b4%e8%b4%a6.md rel="noopener noreferrer" target=_blank>Suggest Changes</a>
+</div>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<div class=details>Table of Contents</div>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#%e5%ba%8f aria-label=序>序</a></li>
+<li>
+<a href=#%e5%ae%89%e8%a3%85proxmoxve aria-label=安装ProxmoxVE>安装ProxmoxVE</a></li>
+<li>
+<a href=#%e8%bf%9e%e6%8e%a5wifi aria-label=连接WIFI>连接WIFI</a></li>
+<li>
+<a href=#%e9%85%8d%e7%bd%ae%e7%bd%91%e7%bb%9c%e6%8e%a5%e5%8f%a3 aria-label=配置网络接口>配置网络接口</a></li>
+<li>
+<a href=#%e6%b5%8b%e8%af%95%e8%99%9a%e6%8b%9f%e6%9c%ba aria-label=测试虚拟机>测试虚拟机</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><h2 id=序>序<a hidden class=anchor aria-hidden=true href=#序>#</a></h2>
+<p>去年购置的Nuc8i5，搭配了32G内存 + 1T m.2 SSD，花费了差不多四千多？机器本身比较便宜，咸鱼可以不到两千入手一个。</p>
+<p><img loading=lazy src=https://cdn.jsdelivr.net/gh/powerviews/picture@main/blog/1627809036301-1627809036294.png alt=配置图>
+</p>
+<p>在装了manjaro之后，遇到了出现很多次问题，最后换新了两次后成功吃灰。当然作为穷狗，肯定不能浪费。想来想去，还是做一个Home lab吧，在申请了宽带外网IP后，配合DDNS，便可以当作家用服务器来使用。</p>
+<h2 id=安装proxmoxve>安装ProxmoxVE<a hidden class=anchor aria-hidden=true href=#安装proxmoxve>#</a></h2>
+<p>经过短时间调研后，各类互联网评测结果都倾向PVE更加适合作为家用服务器的虚拟化平台，故此先试试PVE。</p>
+<blockquote>
+<p>Proxmox VE（英语：Proxmox Virtual Environment，通常简称为PVE、Proxmox），是一个开源的服务器虚拟化环境Linux发行版。Proxmox VE基于Debian，使用基于Ubuntu的定制内核，包含安装程序、网页控制台和命令行工具，并且向第三方工具提供了REST API，在Affero通用公共许可证第三版下发行。Proxmox VE支持两类虚拟化技术：基于容器的LXC（自4.0版开始，3.4版及以前使用OpenVZ技术）和硬件抽象层全虚拟化的KVM。</p>
+<p>PVE下载地址<br>
+<a href=https://www.proxmox.com/en/downloads/category/iso-images-pve>https://www.proxmox.com/en/downloads/category/iso-images-pve</a></p>
+</blockquote>
+<p>balenaEtcher刷入U盘，然后BIOS修改硬盘顺序，常规操作刷入NUC。</p>
+<h2 id=连接wifi>连接WIFI<a hidden class=anchor aria-hidden=true href=#连接wifi>#</a></h2>
+<p>由于Nuc拥有wifi和有线双模功能的，为了更加方便使用（见不得那么多线），决定最终得使用WIFI来出网。Debian连接WIFI有几种方案： <a href=https://wiki.debian.org/WiFi/HowToUse>https://wiki.debian.org/WiFi/HowToUse</a> 。</p>
+<p>笔者测试后认为还是Intel的ConnMan工具套件最为便捷，先接入网线，用于安装一些工具。如果有使用端口映射将PVE到公网的需求，那么一定要提前在路由器上设置好DHCP分配静态IP，以免PVE端的IP变动。</p>
+<ol>
+<li>安装connman</li>
+</ol>
+<pre><code>sudo apt install connman ifupdown2
+sudo systemctl start connman
+</code></pre><ol start=2>
+<li>执行connmanctl
+启动wifi模块，然后扫描wifi，等待扫描结束，通过services指令获得SSID，使用connect指令连接对应WIFI，输入密码成功后，则提示连接成功，随后quit指令退出Connman即可。</li>
+</ol>
+<pre><code>root@pve:~# connmanctl
+connmanctl&gt; enable wifi
+Error wifi: Already enabled
+connmanctl&gt; scan wifi
+Scan completed for wifi
+connmanctl&gt; services
+    ChinaNet-Ze4p        wifi_c8e26537e042_4368696e614e65742d5a653470_managed_psk
+    TP-802               wifi_c8e26537e042_54502d383032_managed_psk
+    pb                   wifi_c8e26537e042_7062_managed_psk
+                         wifi_c8e26537e042_hidden_managed_psk
+    TP-LINK_home         wifi_c8e26537e042_54502d4c494e4b5f686f6d65_managed_psk
+connmanctl&gt; agent on
+Agent registered
+connmanctl&gt; connect wifi_c8e26537e042_4368696e614e65742d5a653470_managed_psk
+</code></pre><h2 id=配置网络接口>配置网络接口<a hidden class=anchor aria-hidden=true href=#配置网络接口>#</a></h2>
+<p>如果上述操作没有遇到问题，那么就可以看到我们被分配到了IP，并且可以成功使用WIFI上网。</p>
+<p><img loading=lazy src=https://cdn.jsdelivr.net/gh/powerviews/picture@main/blog/1627825408811-1627825408800.png alt=网络配置>
+</p>
+<p>接下来，需要配置NAT，让虚拟机使用PVE的IP来传出流量，这里需要使用到iptables来转发。具体操作可参考：
+<a href=https://pve.proxmox.com/wiki/Network_Configuration#_masquerading_nat_with_tt_span_class_monospaced_iptables_span_tt>https://pve.proxmox.com/wiki/Network_Configuration#_masquerading_nat_with_tt_span_class_monospaced_iptables_span_tt</a><br>
+简单修改一下，我这个场景下，已经使用路由器DHCP分配了固定的IP，所以无需在客户端配置静态IP。</p>
+<pre><code>auto lo
+iface lo inet loopback
+
+auto wlp0s20f3
+iface wlp0s20f3 inet dhcp
+
+iface eno1 inet manual
+
+auto vmbr0
+iface vmbr0 inet static
+	address 10.10.10.1/24
+	bridge-ports none
+	bridge-stp off
+	bridge-fd 0
+#NAT出网，网关10.10.10.1
+
+        post-up   echo 1 &gt; /proc/sys/net/ipv4/ip_forward
+        post-up   iptables -t nat -A POSTROUTING -s '10.10.10.0/24' -o wlp0s20f3 -j MASQUERADE
+        post-down iptables -t nat -D POSTROUTING -s '10.10.10.0/24' -o wlp0s20f3 -j MASQUERADE
+</code></pre><p>如此一来，网络配置基本处理完了。对了，这里推荐一个PVE主题 <a href=https://github.com/Weilbyte/PVEDiscordDark><strong>PVEDiscordDark</strong></a> 。接下来，就只需要重启网卡或者直接设备重启即可落实修改了。</p>
+<h2 id=测试虚拟机>测试虚拟机<a hidden class=anchor aria-hidden=true href=#测试虚拟机>#</a></h2>
+<p>输入wifi网卡的地址的8006端口，记得用https，即可访问到PVE的web管理界面。</p>
+<p><img loading=lazy src=https://cdn.jsdelivr.net/gh/powerviews/picture@main/blog/1627826602556-1627826602550.png alt="Dark mode">
+</p>
+<p>在 <code>本地节点-local存储-ISO镜像</code> 处，可以上传系统ISO镜像，也就是常规的VM格式。</p>
+<p><img loading=lazy src=https://cdn.jsdelivr.net/gh/powerviews/picture@main/blog/1627826702986-1627826702980.png alt=ISO镜像上传>
+</p>
+<p>而后，直接创建虚拟机，跟着走就行。我直接跳到安装后的虚拟机中，设置好网卡属性，子网10.10.10.1/24，网关为10.10.10.1，然后一定要记住设置DNS，不然无法解析域名。最后，重启一下网卡或者机器即可。</p>
+<p><img loading=lazy src=https://cdn.jsdelivr.net/gh/powerviews/picture@main/blog/1627826857866-1627826857857.png alt=IPV4设置>
+</p>
+<p><img loading=lazy src=https://cdn.jsdelivr.net/gh/powerviews/picture@main/blog/1627827003051-1627827003047.png alt=测试网络>
+</p>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://powerviews.github.io/tags/%E6%8A%98%E8%85%BE/>折腾</a></li>
+</ul>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2021 <a href=https://powerviews.github.io/>Powerviews' blog</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
+<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</button>
+</a>
+<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+<script>document.querySelectorAll('pre > code').forEach(b=>{const c=b.parentNode.parentNode,a=document.createElement('button');a.classList.add('copy-code'),a.innerText='copy';function d(){a.innerText='copied!',setTimeout(()=>{a.innerText='copy'},2e3)}a.addEventListener('click',e=>{if('clipboard'in navigator){navigator.clipboard.writeText(b.textContent),d();return}const a=document.createRange();a.selectNodeContents(b);const c=window.getSelection();c.removeAllRanges(),c.addRange(a);try{document.execCommand('copy'),d()}catch(a){}c.removeRange(a)}),c.classList.contains("highlight")?c.appendChild(a):c.parentNode.firstChild==c||(b.parentNode.parentNode.parentNode.parentNode.parentNode.nodeName=="TABLE"?b.parentNode.parentNode.parentNode.parentNode.parentNode.appendChild(a):b.parentNode.appendChild(a))})</script>
+</body>
+</html>

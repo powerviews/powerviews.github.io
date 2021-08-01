@@ -2,14 +2,29 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://powerviews.github.io/archives/</loc>
-  </url><url>
     <loc>https://powerviews.github.io/categories/</loc>
+    <lastmod>2021-08-01T16:59:33+08:00</lastmod>
+  </url><url>
+    <loc>https://powerviews.github.io/posts/</loc>
+    <lastmod>2021-08-01T16:59:33+08:00</lastmod>
   </url><url>
     <loc>https://powerviews.github.io/</loc>
-  </url><url>
-    <loc>https://powerviews.github.io/search/</loc>
+    <lastmod>2021-08-01T16:59:33+08:00</lastmod>
   </url><url>
     <loc>https://powerviews.github.io/tags/</loc>
+    <lastmod>2021-08-01T16:59:33+08:00</lastmod>
+  </url><url>
+    <loc>https://powerviews.github.io/tags/%E6%8A%98%E8%85%BE/</loc>
+    <lastmod>2021-08-01T16:59:33+08:00</lastmod>
+  </url><url>
+    <loc>https://powerviews.github.io/categories/%E6%B5%81%E6%B0%B4%E8%B4%A6/</loc>
+    <lastmod>2021-08-01T16:59:33+08:00</lastmod>
+  </url><url>
+    <loc>https://powerviews.github.io/posts/%E7%B2%BE%E8%87%B4%E5%B0%8F%E5%B7%A7nuc%E6%90%AD%E5%BB%BAhomelab%E6%B5%81%E6%B0%B4%E8%B4%A6/</loc>
+    <lastmod>2021-08-01T16:59:33+08:00</lastmod>
+  </url><url>
+    <loc>https://powerviews.github.io/archives/</loc>
+  </url><url>
+    <loc>https://powerviews.github.io/search/</loc>
   </url>
 </urlset>
