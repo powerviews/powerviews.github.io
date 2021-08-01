@@ -54,9 +54,10 @@ params:
     # home-info mode
     homeInfoParams:
         Title: "About this blog \U0001f680"
-        Content: "Security research/Red team\n\
-        Friends: [倾旋](https://payloads.online/)
-        "
+        Content: >
+            Security research/Red team
+            Friends: 
+            [倾旋](https://payloads.online/)
 
     socialIcons:
         - name: github
